@@ -11,8 +11,9 @@ bitbucket.org/HeilaSystems/configurations v0.0.14/go.mod h1:z9JpmSoDDxg6mS7Tzv3x
 bitbucket.org/HeilaSystems/configurations v0.0.16/go.mod h1:sNwtGwfp2kf1w8ThSgUnNpoXYmriyMd+xaZU0NKkM/8=
 bitbucket.org/HeilaSystems/configurations v0.1.0/go.mod h1:sNwtGwfp2kf1w8ThSgUnNpoXYmriyMd+xaZU0NKkM/8=
 bitbucket.org/HeilaSystems/configurations v0.1.1/go.mod h1:sNwtGwfp2kf1w8ThSgUnNpoXYmriyMd+xaZU0NKkM/8=
-bitbucket.org/HeilaSystems/configurations v0.1.2 h1:FC+ukP2n45X8KwTk/nWtbNhMc3h0XymO2qlRgZmkz4Q=
 bitbucket.org/HeilaSystems/configurations v0.1.2/go.mod h1:CF2vDmunfXvhJGI3SYwjBEjU+4zLBiaNOZIRw7l54wE=
+bitbucket.org/HeilaSystems/configurations v0.3.0 h1:UxSOm36MDMHEk7TiA6bz8iEpORydat33AhKwUKYa0g8=
+bitbucket.org/HeilaSystems/configurations v0.3.0/go.mod h1:CF2vDmunfXvhJGI3SYwjBEjU+4zLBiaNOZIRw7l54wE=
 bitbucket.org/HeilaSystems/dbcon v1.3.3/go.mod h1:JIOMf/FBYbq5uFYM0cD9BXRRKjrnbtgdd97y1qwvdXo=
 bitbucket.org/HeilaSystems/dbcon/excelize v0.0.0-20190312152622-ae09deb1d53c/go.mod h1:KiVmgDYXgL2ATGdxYmWYzlsqZavaDYKyxTrDlNi+BgY=
 bitbucket.org/HeilaSystems/debug v0.0.1/go.mod h1:IepmTV3mY/8g2xLnNOEDvxmA7P16OWfQj2e5S9XXrlc=
@@ -41,8 +42,9 @@ bitbucket.org/HeilaSystems/dependencybundler v0.11.0/go.mod h1:BEg2927YU/1fFhwVj
 bitbucket.org/HeilaSystems/dependencybundler v0.13.0/go.mod h1:Y9LIVs5x4q5HUg3Ldl2ozEZfmEEGzGvVTxkg/vlE98s=
 bitbucket.org/HeilaSystems/dependencybundler v0.19.0/go.mod h1:yxdGBWQUcwSqcWK3pvrK0ovvfZARifZ9/PRotDGi4jk=
 bitbucket.org/HeilaSystems/dependencybundler v0.19.1/go.mod h1:yxdGBWQUcwSqcWK3pvrK0ovvfZARifZ9/PRotDGi4jk=
-bitbucket.org/HeilaSystems/dependencybundler v0.23.0 h1:Eb1MEUP6MaTlchsiQY0cq4m66/J6/TLeSWRJOE6aukQ=
-bitbucket.org/HeilaSystems/dependencybundler v0.23.0/go.mod h1:sc8JOA8nP71H/z5h6FtsAaYdcBBfEjcyFLVdRH68YW8=
+bitbucket.org/HeilaSystems/dependencybundler v0.22.0/go.mod h1:lY4Hj2WS21Ekei7qHKJMYJt5g/+C8Sdq0bJXyA60Ps4=
+bitbucket.org/HeilaSystems/dependencybundler v0.25.0 h1:yH1E+wrzIFtxOtiADpd8NqWwkXyGzamwkHrO62+H+JA=
+bitbucket.org/HeilaSystems/dependencybundler v0.25.0/go.mod h1:y6hO1zGJSp3SVY1h8Tbpgd6UeVwIZDP++7WF+dQC/Bk=
 bitbucket.org/HeilaSystems/errors v1.1.1-servicetdErr/go.mod h1:WhRks6QmNKrn9Hi1zgbI4QYpVX8LeDkbcn22knrBTpo=
 bitbucket.org/HeilaSystems/helper v1.1.0/go.mod h1:Mrdv1gbUUwbdXnKE2xK4iHg/N5KRsQioiwocEGykegY=
 bitbucket.org/HeilaSystems/helpers v1.30.1/go.mod h1:+s7pNuk+GXQb5U605RfahBcW9Q2AlJMN1lmzdv8wbc0=
@@ -68,6 +70,8 @@ bitbucket.org/HeilaSystems/session v0.8.4/go.mod h1:plDzdhk9HDaWY04lBDGMiGOjK6OS
 bitbucket.org/HeilaSystems/session v0.10.0/go.mod h1:plDzdhk9HDaWY04lBDGMiGOjK6OS+0ECTXaZ1yeCPIU=
 bitbucket.org/HeilaSystems/session v0.12.0/go.mod h1:6T/jn0LtT/83QRiKI+PFtCMiP7n1DR/swuPUFIkXsEw=
 bitbucket.org/HeilaSystems/session v0.15.4/go.mod h1:6T/jn0LtT/83QRiKI+PFtCMiP7n1DR/swuPUFIkXsEw=
+bitbucket.org/HeilaSystems/session v0.16.1 h1:cLaD3AJ+6xaX1HvrZPzrRuFAzy/o2OB0VFd3Y1IHThI=
+bitbucket.org/HeilaSystems/session v0.16.1/go.mod h1:SPdYyaqZUSn6fbbNWv/61NFY/t3beaCpDUmboiXNQXk=
 bitbucket.org/HeilaSystems/tokenauth v0.1.0/go.mod h1:bktsrJ0qoh99ogT0gp5q/b5MkONzNSkl1eYqGQNID4U=
 bitbucket.org/HeilaSystems/tokenauth v0.2.0/go.mod h1:bktsrJ0qoh99ogT0gp5q/b5MkONzNSkl1eYqGQNID4U=
 bitbucket.org/HeilaSystems/tokenauth v0.2.1/go.mod h1:bktsrJ0qoh99ogT0gp5q/b5MkONzNSkl1eYqGQNID4U=
@@ -82,6 +86,7 @@ bitbucket.org/HeilaSystems/transport v0.2.0/go.mod h1:3WrnMhTAv2nVNaey2mdf5krP+2
 bitbucket.org/HeilaSystems/transport v0.3.1/go.mod h1:zxMMZgwDF3n8YApRiUpNBQaRmnTnmU7pWBX8/i7l0HE=
 bitbucket.org/HeilaSystems/transport v0.4.0/go.mod h1:3CJsBuKC19j+JI3tTtfB5VW6gJ1UMjKi1KO2cbCEApI=
 bitbucket.org/HeilaSystems/transport v0.7.0/go.mod h1:EkV+IXpL3seAo0Di6yPZkNrd2xwnNQF+I1Vi2gA7HRY=
+bitbucket.org/HeilaSystems/transport v0.8.0/go.mod h1:EkV+IXpL3seAo0Di6yPZkNrd2xwnNQF+I1Vi2gA7HRY=
 bitbucket.org/HeilaSystems/transport v0.9.0 h1:bx45huxuCek6LsV0pQdTzlVH03nFer5YkJP5eWNhB+A=
 bitbucket.org/HeilaSystems/transport v0.9.0/go.mod h1:/seY4jQ3ok0+u1PMnNx0tYhU4RxVqC8Q+MhPo76MNEI=
 bitbucket.org/HeilaSystems/utils v0.0.1/go.mod h1:ywKcDVFgVV8S4PxYllt0zT+x5X8GGpEP/3yLz1w37dU=
@@ -364,7 +369,6 @@ github.com/opentracing/opentracing-go v1.2.0/go.mod h1:GxEUsuufX4nBwe+T+Wl9TAgYr
 github.com/ory/dockertest v3.3.5+incompatible/go.mod h1:1vX4m9wsvi00u5bseYwXaSnhNrne+V0E6LAcBILJdPs=
 github.com/pelletier/go-toml v1.7.0/go.mod h1:vwGMzjaWMwyfHwgIBhI2YUM4fB6nL6lVAvS1LBMMhTE=
 github.com/pkg/errors v0.8.0/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
-github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
@@ -486,7 +490,6 @@ golang.org/x/lint v0.0.0-20190301231843-5614ed5bae6f/go.mod h1:UVdnD1Gm6xHRNCYTk
 golang.org/x/lint v0.0.0-20190313153728-d0100b6bd8b3/go.mod h1:6SW0HCj/g11FgYtHlgUYUwCkIfeOF89ocIRzGO/8vkc=
 golang.org/x/lint v0.0.0-20190409202823-959b441ac422/go.mod h1:6SW0HCj/g11FgYtHlgUYUwCkIfeOF89ocIRzGO/8vkc=
 golang.org/x/lint v0.0.0-20190909230951-414d861bb4ac/go.mod h1:6SW0HCj/g11FgYtHlgUYUwCkIfeOF89ocIRzGO/8vkc=
-golang.org/x/lint v0.0.0-20190930215403-16217165b5de h1:5hukYrvBGR8/eNkX5mdUezrA6JiaEZDtJb9Ei+1LlBs=
 golang.org/x/lint v0.0.0-20190930215403-16217165b5de/go.mod h1:6SW0HCj/g11FgYtHlgUYUwCkIfeOF89ocIRzGO/8vkc=
 golang.org/x/lint v0.0.0-20191125180803-fdd1cda4f05f/go.mod h1:5qLYkcX4OjUUV8bRuDixDT3tpyyb+LUpUlRWLxfhWrs=
 golang.org/x/lint v0.0.0-20200130185559-910be7a94367/go.mod h1:3xt1FjdF8hUf6vQPIChWIBhFzV8gjjsPE/fR3IyQdNY=
@@ -751,7 +754,6 @@ google.golang.org/protobuf v1.26.0-rc.1 h1:7QnIQpGRHE5RnLKnESfDoxm2dTapTZua5a0kS
 google.golang.org/protobuf v1.26.0-rc.1/go.mod h1:jlhhOSvTdKEhbULTjvd4ARK9grFBp09yW+WbY/TyQbw=
 gopkg.in/alecthomas/kingpin.v2 v2.2.6/go.mod h1:FMv+mEhP44yOT+4EoQTLFTRgOQ1FBLkstjWtayDeSgw=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
-gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 h1:qIbj1fsPNlZgppZ+VLlY7N33q108Sa+fhmuc+sWQYwY=
 gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 h1:YR8cESwS4TdDjEe65xsg0ogRM/Nc3DYOhEAlW+xobZo=
 gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
@@ -762,7 +764,6 @@ gopkg.in/go-playground/validator.v9 v9.29.1/go.mod h1:+c9/zcJMFNgbLvly1L1V+PpxWd
 gopkg.in/natefinch/lumberjack.v2 v2.0.0/go.mod h1:l0ndWWf7gzL7RNwBG7wST/UCcT4T24xpD6X8LsfU/+k=
 gopkg.in/sourcemap.v1 v1.0.5/go.mod h1:2RlvNNSMglmRrcvhfuzp4hQHwOtjxlbjX7UPY/GXb78=
 gopkg.in/yaml.v2 v2.2.1/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
-gopkg.in/yaml.v2 v2.2.2 h1:ZCJp+EgiOT7lHqUV2J862kp8Qj64Jo6az82+3Td9dZw=
 gopkg.in/yaml.v2 v2.2.2/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 gopkg.in/yaml.v2 v2.2.3/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 gopkg.in/yaml.v2 v2.2.4/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
@@ -770,7 +771,6 @@ gopkg.in/yaml.v2 v2.2.5/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 gopkg.in/yaml.v2 v2.2.8/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 gopkg.in/yaml.v2 v2.3.0 h1:clyUAQHOM3G0M3f5vQj7LuJrETvjVot3Z5el9nffUtU=
 gopkg.in/yaml.v2 v2.3.0/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
-gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c h1:dUUwHk2QECo/6vqA44rthZ8ie2QXMNeKRTHCNY2nXvo=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 h1:tQIYjPdBoyREyB9XMu+nnTclpTYkz2zFM+lzLJFO4gQ=
 gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
@@ -784,7 +784,6 @@ honnef.co/go/tools v0.0.0-20190102054323-c2f93a96b099/go.mod h1:rf3lG4BRIbNafJWh
 honnef.co/go/tools v0.0.0-20190106161140-3f1c8253044a/go.mod h1:rf3lG4BRIbNafJWhAfAdb/ePZxsR/4RtNHQocxwk9r4=
 honnef.co/go/tools v0.0.0-20190418001031-e561f6794a2a/go.mod h1:rf3lG4BRIbNafJWhAfAdb/ePZxsR/4RtNHQocxwk9r4=
 honnef.co/go/tools v0.0.0-20190523083050-ea95bdfd59fc/go.mod h1:rf3lG4BRIbNafJWhAfAdb/ePZxsR/4RtNHQocxwk9r4=
-honnef.co/go/tools v0.0.1-2019.2.3 h1:3JgtbtFHMiCmsznwGVTUWbgGov+pVqnlf1dEJTNAXeM=
 honnef.co/go/tools v0.0.1-2019.2.3/go.mod h1:a3bituU0lyd329TUQxRnasdCoJDkEUEAqEt0JzvZhAg=
 honnef.co/go/tools v0.0.1-2020.1.3/go.mod h1:X/FiERA/W4tHapMX5mGpAtMSVEeEUOyHaw9vFzvIQ3k=
 honnef.co/go/tools v0.0.1-2020.1.4/go.mod h1:X/FiERA/W4tHapMX5mGpAtMSVEeEUOyHaw9vFzvIQ3k=

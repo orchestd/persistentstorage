@@ -2,7 +2,6 @@ package persistentstorage
 
 import (
 	"context"
-	"time"
 )
 
 type PersistentStorage interface {
@@ -12,12 +11,12 @@ type PersistentStorage interface {
 	QueryInt(c context.Context, query QueryGetter, params map[string]interface{}) (int64, error)
 	QueryString(c context.Context, query QueryGetter, params map[string]interface{}) (string, error)
 
-	GetOne(c context.Context, target interface{}, params map[string]interface{}) error
-	GetMany(c context.Context, target interface{}, params map[string]interface{}) error
+	GetOne(c context.Context, target interface{}, params interface{}) error
+	GetMany(c context.Context, target interface{}, params interface{}) error
 
-	Insert(c context.Context, target BaseModelSetter, now time.Time) error
-	Update(c context.Context, model interface{}, update map[string]interface{}, params map[string]interface{}) error
-	Delete(c context.Context, model interface{}, params map[string]interface{}, now time.Time) error
+	Insert(c context.Context, target interface{}) error
+	Update(c context.Context, update interface{}, query interface{}) error
+	Delete(c context.Context, model interface{}, params interface{}) error
 
 	Exec(c context.Context, target QueryGetter, params map[string]interface{}) error
 }
@@ -28,10 +27,4 @@ type QueryGetter interface {
 
 type UpdateStampGetter interface {
 	GetUpdateStamp(c context.Context, description string) (int64, error)
-}
-
-type BaseModelSetter interface {
-	SetCreateDate(date time.Time)
-	SetUpdateStamp(updateStamp int64)
-	SetCancelDate(date time.Time)
 }
