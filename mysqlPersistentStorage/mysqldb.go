@@ -2,8 +2,10 @@ package mysqlPersistentStorage
 
 import (
 	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/configuration"
+	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/contextData"
 	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/credentials"
 	. "bitbucket.org/HeilaSystems/persistentstorage"
+	"bitbucket.org/HeilaSystems/persistentstorage/baseHeila"
 	"context"
 	"fmt"
 	"gorm.io/driver/mysql"
@@ -16,40 +18,70 @@ const cancelDateField = "cancelDate"
 const updateStampField = "updateStamp"
 
 func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.CredentialsGetter,
-	config configuration.Config) PersistentStorage {
+	config configuration.Config, ctxResolver contextData.ContextDataResolver) PersistentStorage {
+	//TODO: add trace
 	conStr := credentials.GetCredentials().SqlConnectionString
 	dbName, err := config.Get("SQL_DB_NAME").String()
 	if err != nil {
 		panic("env variable SQL_DB_NAME must be defined")
 	}
 	conStr = strings.Replace(conStr, "<dbname>", dbName, 1)
-	mySQLDb := &MySQLDb{updateStampGetter: updateStampGetter}
+	if !strings.Contains(conStr, "parseTime") {
+		if strings.Contains(conStr, "?") {
+			conStr += "&parseTime=true"
+		} else {
+			conStr += "?parseTime=true"
+		}
+	}
+
+	mySQLDb := &MySQLDb{}
 	db, err := gorm.Open(mysql.Open(conStr), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 	mySQLDb.db = db
+	mySQLDb.ctxResolver = ctxResolver
+	baseHeila.UpdStampGetter = updateStampGetter
 	return mySQLDb
 }
 
 type MySQLDb struct {
-	db                *gorm.DB
-	updateStampGetter UpdateStampGetter
+	db          *gorm.DB
+	ctxResolver contextData.ContextDataResolver
+}
+
+func (repo MySQLDb) setTimeNow(c context.Context, db *gorm.DB) {
+	db.NowFunc = func() time.Time {
+		now, ok, err := repo.ctxResolver.GetDateNow(c)
+		if err != nil {
+			fmt.Println(err) // TODO: add log
+		}
+		if !ok {
+			fmt.Println(err) // TODO: add log
+		}
+		return now
+	}
+}
+
+func (repo MySQLDb) getDbWithContext(c context.Context, db *gorm.DB) *gorm.DB {
+	db = repo.db.WithContext(c)
+	repo.setTimeNow(c, db)
+	return db
 }
 
 func (repo MySQLDb) QueryOne(c context.Context, target QueryGetter, params map[string]interface{}) error {
 	query := target.GetQuery()
-	return repo.db.WithContext(c).Raw(query, params).First(target).Error
+	return repo.getDbWithContext(c, repo.db).Raw(query, params).First(target).Error
 }
 
 func (repo MySQLDb) QueryMany(c context.Context, target QueryGetter, params map[string]interface{}) error {
 	query := target.GetQuery()
-	return repo.db.WithContext(c).Raw(query, params).Find(target).Error
+	return repo.getDbWithContext(c, repo.db).Raw(query, params).Find(target).Error
 }
 
 func (repo MySQLDb) QueryInt(c context.Context, query QueryGetter, params map[string]interface{}) (int64, error) {
 	var result map[string]interface{}
-	err := repo.db.WithContext(c).Raw(query.GetQuery(), params).First(&result).Error
+	err := repo.getDbWithContext(c, repo.db).Raw(query.GetQuery(), params).First(&result).Error
 	if err != nil {
 		return 0, err
 	}
@@ -73,7 +105,7 @@ func (repo MySQLDb) QueryInt(c context.Context, query QueryGetter, params map[st
 
 func (repo MySQLDb) QueryString(c context.Context, query QueryGetter, params map[string]interface{}) (string, error) {
 	var result map[string]interface{}
-	err := repo.db.WithContext(c).Raw(query.GetQuery(), params).Take(&result).Error
+	err := repo.getDbWithContext(c, repo.db).Raw(query.GetQuery(), params).Take(&result).Error
 	if err != nil {
 		return "", err
 	}
@@ -94,45 +126,27 @@ func (repo MySQLDb) QueryString(c context.Context, query QueryGetter, params map
 	}
 }
 
-func (repo MySQLDb) GetOne(c context.Context, target interface{}, params map[string]interface{}) error {
-	return repo.db.WithContext(c).Where(cancelDateField + " IS NOT NULL").Where(params).First(target).Error
+func (repo MySQLDb) GetOne(c context.Context, target interface{}, params interface{}) error {
+	return repo.getDbWithContext(c, repo.db).Where(params).First(target).Error
 }
 
-func (repo MySQLDb) GetMany(c context.Context, target interface{}, params map[string]interface{}) error {
-	return repo.db.WithContext(c).Where(cancelDateField + " IS NOT NULL").Where(params).Find(target).Error
+func (repo MySQLDb) GetMany(c context.Context, target interface{}, params interface{}) error {
+	return repo.getDbWithContext(c, repo.db).Where(params).Find(target).Error
 }
 
-func (repo MySQLDb) Insert(c context.Context, target BaseModelSetter, now time.Time) error {
-	updateStamp, err := repo.updateStampGetter.GetUpdateStamp(c, "update from persistent storage lib")
-	if err != nil{
-		return err
-	}
-	target.SetUpdateStamp(updateStamp)
-	target.SetCreateDate(now)
-	return repo.db.WithContext(c).Create(target).Error
+func (repo MySQLDb) Insert(c context.Context, target interface{}) error {
+	return repo.getDbWithContext(c, repo.db).Model(target).Create(target).Error
 }
 
-func (repo MySQLDb) Update(c context.Context, model interface{}, update map[string]interface{}, params map[string]interface{}) error {
-	updateStamp, err := repo.updateStampGetter.GetUpdateStamp(c, "update from persistent storage lib")
-	if err != nil{
-		return err
-	}
-	update[updateStampField] = updateStamp
-	return repo.db.WithContext(c).Model(model).Where(params).Updates(update).Error
+func (repo MySQLDb) Update(c context.Context, update interface{}, query interface{}) error {
+	return repo.getDbWithContext(c, repo.db).Model(update).Where(query).Updates(update).Error
 }
 
-func (repo MySQLDb) Delete(c context.Context, model interface{}, params map[string]interface{}, now time.Time) error {
-	update := make(map[string]interface{})
-	updateStamp, err := repo.updateStampGetter.GetUpdateStamp(c, "update from persistent storage lib")
-	if err != nil{
-		return err
-	}
-	update[updateStampField] = updateStamp
-	update[cancelDateField] = now
-	return repo.db.WithContext(c).Model(model).Where(params).Updates(update).Error
+func (repo MySQLDb) Delete(c context.Context, model interface{}, params interface{}) error {
+	return repo.getDbWithContext(c, repo.db).Where(params).Delete(model).Error
 }
 
 func (repo MySQLDb) Exec(c context.Context, queryGetter QueryGetter, params map[string]interface{}) error {
 	query := queryGetter.GetQuery()
-	return repo.db.WithContext(c).Exec(query, params).Error
+	return repo.getDbWithContext(c, repo.db).Exec(query, params).Error
 }
