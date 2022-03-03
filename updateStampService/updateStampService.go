@@ -20,9 +20,9 @@ type updateStampService struct {
 func (us updateStampService) GetUpdateStamp(c context.Context, description string) (int64, error) {
 	updateStampResult := make(map[string]int64)
 	payload := map[string]interface{}{"Description": description, "Increment": 1}
-	err := us.client.Post(c, payload, "updateStampBase", "getUpdateStamp", &updateStampResult, nil)
-	if err != nil {
-		return 0, fmt.Errorf(err.Error())
+	res := us.client.Call(c, payload, "updateStampBase", "getUpdateStamp", &updateStampResult, nil)
+	if !res.IsSuccess() {
+		return 0, fmt.Errorf(res.Error())
 	}
 	return updateStampResult["updateStamp"], nil
 }
