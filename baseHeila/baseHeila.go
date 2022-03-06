@@ -16,11 +16,12 @@ type BaseHeilaEntity struct {
 }
 
 func (be *BaseHeilaEntity) setUpdateStamp(tx *gorm.DB) error {
-	updateStamp, err := UpdStampGetter.GetUpdateStamp(tx.Statement.Context, "update from persistent storage lib")
-	if err != nil {
+	var up int64  = -1
+	err := tx.Table(tx.Statement.Table).Select("IFNULL(MAX(updateStamp), 0) AS updateStamp").Pluck("updateStamp", &up).Error
+	if err != nil{
 		return err
 	}
-	be.UpdateStamp = updateStamp
+	be.UpdateStamp = up+1
 	return nil
 }
 
