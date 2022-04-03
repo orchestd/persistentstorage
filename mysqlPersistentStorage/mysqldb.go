@@ -17,6 +17,11 @@ import (
 const cancelDateField = "cancelDate"
 const updateStampField = "updateStamp"
 
+func NewMySQLDbNoExtraDeps(credentials credentials.CredentialsGetter,
+	config configuration.Config) PersistentStorage {
+	return NewMySQLDb(nil, credentials, config, nil)
+}
+
 func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.CredentialsGetter,
 	config configuration.Config, ctxResolver contextData.ContextDataResolver) PersistentStorage {
 	//TODO: add trace
@@ -148,5 +153,9 @@ func (repo MySQLDb) Delete(c context.Context, model interface{}, params interfac
 
 func (repo MySQLDb) Exec(c context.Context, queryGetter QueryGetter, params map[string]interface{}) error {
 	query := queryGetter.GetQuery()
-	return repo.getDbWithContext(c, repo.db).Exec(query, params).Error
+	if params == nil{
+		return repo.getDbWithContext(c, repo.db).Exec(query).Error
+	} else {
+		return repo.getDbWithContext(c, repo.db).Exec(query, params).Error
+	}
 }
