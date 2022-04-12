@@ -8,9 +8,9 @@ import (
 	"bitbucket.org/HeilaSystems/persistentstorage/baseHeila"
 	"context"
 	"fmt"
+	. "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"strings"
 	"time"
 )
 
@@ -25,22 +25,26 @@ func NewMySQLDbNoExtraDeps(credentials credentials.CredentialsGetter,
 func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.CredentialsGetter,
 	config configuration.Config, ctxResolver contextData.ContextDataResolver) PersistentStorage {
 	//TODO: add trace
-	conStr := credentials.GetCredentials().SqlConnectionString
+	sqlUserName := credentials.GetCredentials().SqlUserName
+	sqlUserPw := credentials.GetCredentials().SqlUserPw
 	dbName, err := config.Get("SQL_DB_NAME").String()
 	if err != nil {
 		panic("env variable SQL_DB_NAME must be defined")
 	}
-	conStr = strings.Replace(conStr, "<dbname>", dbName, 1)
-	if !strings.Contains(conStr, "parseTime") {
-		if strings.Contains(conStr, "?") {
-			conStr += "&parseTime=true"
-		} else {
-			conStr += "?parseTime=true"
-		}
-	}
+
+	host, _ := config.Get("SQL_HOST").String() //ignore error host can be empty
+
+	mysqlConfig := NewConfig()
+	mysqlConfig.Addr = host
+	mysqlConfig.DBName = dbName
+	mysqlConfig.User = sqlUserName
+	mysqlConfig.Passwd = sqlUserPw
+	mysqlConfig.ParseTime = true
+	mysqlConfig.MultiStatements = true
+	mysqlConfig.InterpolateParams = true
 
 	mySQLDb := &MySQLDb{}
-	db, err := gorm.Open(mysql.Open(conStr), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(mysqlConfig.FormatDSN()), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
@@ -153,7 +157,7 @@ func (repo MySQLDb) Delete(c context.Context, model interface{}, params interfac
 
 func (repo MySQLDb) Exec(c context.Context, queryGetter QueryGetter, params map[string]interface{}) error {
 	query := queryGetter.GetQuery()
-	if params == nil{
+	if params == nil {
 		return repo.getDbWithContext(c, repo.db).Exec(query).Error
 	} else {
 		return repo.getDbWithContext(c, repo.db).Exec(query, params).Error
