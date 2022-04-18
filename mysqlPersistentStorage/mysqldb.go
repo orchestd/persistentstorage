@@ -35,6 +35,9 @@ func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.Cre
 	host, _ := config.Get("SQL_HOST").String() //ignore error host can be empty
 
 	mysqlConfig := NewConfig()
+	if host != "" {
+		mysqlConfig.Net = "tcp"
+	}
 	mysqlConfig.Addr = host
 	mysqlConfig.DBName = dbName
 	mysqlConfig.User = sqlUserName
