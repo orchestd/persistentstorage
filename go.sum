@@ -13,9 +13,8 @@ bitbucket.org/HeilaSystems/configurations v0.0.16/go.mod h1:sNwtGwfp2kf1w8ThSgUn
 bitbucket.org/HeilaSystems/configurations v0.1.0/go.mod h1:sNwtGwfp2kf1w8ThSgUnNpoXYmriyMd+xaZU0NKkM/8=
 bitbucket.org/HeilaSystems/configurations v0.1.1/go.mod h1:sNwtGwfp2kf1w8ThSgUnNpoXYmriyMd+xaZU0NKkM/8=
 bitbucket.org/HeilaSystems/configurations v0.1.2/go.mod h1:CF2vDmunfXvhJGI3SYwjBEjU+4zLBiaNOZIRw7l54wE=
+bitbucket.org/HeilaSystems/configurations v0.3.0 h1:UxSOm36MDMHEk7TiA6bz8iEpORydat33AhKwUKYa0g8=
 bitbucket.org/HeilaSystems/configurations v0.3.0/go.mod h1:CF2vDmunfXvhJGI3SYwjBEjU+4zLBiaNOZIRw7l54wE=
-bitbucket.org/HeilaSystems/configurations v0.6.0 h1:z2LmVLtcLYQZss/ky8JyR9QBk/pG/owidwiYG9sz9iM=
-bitbucket.org/HeilaSystems/configurations v0.6.0/go.mod h1:jwxhI4W1fZVVZ9gm55w4Uwo6BJdOJUZRmR2DHX0SqrQ=
 bitbucket.org/HeilaSystems/dbcon v1.3.3/go.mod h1:JIOMf/FBYbq5uFYM0cD9BXRRKjrnbtgdd97y1qwvdXo=
 bitbucket.org/HeilaSystems/dbcon/excelize v0.0.0-20190312152622-ae09deb1d53c/go.mod h1:KiVmgDYXgL2ATGdxYmWYzlsqZavaDYKyxTrDlNi+BgY=
 bitbucket.org/HeilaSystems/debug v0.0.1/go.mod h1:IepmTV3mY/8g2xLnNOEDvxmA7P16OWfQj2e5S9XXrlc=
