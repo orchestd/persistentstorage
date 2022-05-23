@@ -19,6 +19,8 @@ type PersistentStorage interface {
 	Delete(c context.Context, model interface{}, params interface{}) error
 
 	Exec(c context.Context, target QueryGetter, params map[string]interface{}) error
+
+	IsRecordNotFoundError(err error) bool
 }
 
 type QueryGetter interface {

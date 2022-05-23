@@ -7,6 +7,7 @@ import (
 	. "bitbucket.org/HeilaSystems/persistentstorage"
 	"bitbucket.org/HeilaSystems/persistentstorage/baseHeila"
 	"context"
+	"errors"
 	"fmt"
 	. "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
@@ -165,4 +166,8 @@ func (repo MySQLDb) Exec(c context.Context, queryGetter QueryGetter, params map[
 	} else {
 		return repo.getDbWithContext(c, repo.db).Exec(query, params).Error
 	}
+}
+
+func (repo MySQLDb) IsRecordNotFoundError(err error) bool {
+	return errors.Is(err, gorm.ErrRecordNotFound)
 }
