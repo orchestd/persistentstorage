@@ -1,18 +1,21 @@
 package mysqlPersistentStorage
 
 import (
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/configuration"
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/contextData"
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/credentials"
-	. "bitbucket.org/HeilaSystems/persistentstorage"
-	"bitbucket.org/HeilaSystems/persistentstorage/baseHeila"
 	"context"
 	"errors"
 	"fmt"
+	"github.com/orchestd/persistentstorage/baseHeila"
+	"time"
+)
+
+import (
 	. "github.com/go-sql-driver/mysql"
+	"github.com/orchestd/dependencybundler/interfaces/configuration"
+	"github.com/orchestd/dependencybundler/interfaces/contextData"
+	"github.com/orchestd/dependencybundler/interfaces/credentials"
+	. "github.com/orchestd/persistentstorage"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"time"
 )
 
 const cancelDateField = "cancelDate"

@@ -1,7 +1,7 @@
 package baseHeila
 
 import (
-	. "bitbucket.org/HeilaSystems/persistentstorage"
+	. "github.com/orchestd/persistentstorage"
 	"gorm.io/gorm"
 	"time"
 )
@@ -16,12 +16,12 @@ type BaseHeilaEntity struct {
 }
 
 func (be *BaseHeilaEntity) setUpdateStamp(tx *gorm.DB) error {
-	var up int64  = -1
+	var up int64 = -1
 	err := tx.Table(tx.Statement.Table).Select("IFNULL(MAX(updateStamp), 0) AS updateStamp").Pluck("updateStamp", &up).Error
-	if err != nil{
+	if err != nil {
 		return err
 	}
-	be.UpdateStamp = up+1
+	be.UpdateStamp = up + 1
 	return nil
 }
 

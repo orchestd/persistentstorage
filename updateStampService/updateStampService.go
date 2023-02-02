@@ -1,11 +1,11 @@
 package updateStampService
 
 import (
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/configuration"
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/transport"
-	"bitbucket.org/HeilaSystems/persistentstorage"
 	"context"
 	"fmt"
+	"github.com/orchestd/dependencybundler/interfaces/configuration"
+	"github.com/orchestd/dependencybundler/interfaces/transport"
+	"github.com/orchestd/persistentstorage"
 )
 
 func NewUpdateStampService(client transport.HttpClient, config configuration.Config) persistentstorage.UpdateStampGetter {

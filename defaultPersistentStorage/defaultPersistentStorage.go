@@ -1,8 +1,8 @@
 package defaultPersistentStorage
 
 import (
-	"bitbucket.org/HeilaSystems/persistentstorage/mysqlPersistentStorage"
-	"bitbucket.org/HeilaSystems/persistentstorage/updateStampService"
+	"github.com/orchestd/persistentstorage/mysqlPersistentStorage"
+	"github.com/orchestd/persistentstorage/updateStampService"
 	"go.uber.org/fx"
 )
 
