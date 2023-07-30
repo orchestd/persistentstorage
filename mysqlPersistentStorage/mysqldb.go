@@ -30,8 +30,10 @@ func NewMySQLDbNoExtraDeps(credentials credentials.CredentialsGetter,
 func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.CredentialsGetter,
 	config configuration.Config, ctxResolver contextData.ContextDataResolver) PersistentStorage {
 	//TODO: add trace
+
 	host, _ := config.Get("SQL_HOST").String() //ignore error host can be empty
 	if host == None {
+		//this means that all APIs using persistentStorage will not be active on this service
 		return &MySQLDb{}
 	}
 
