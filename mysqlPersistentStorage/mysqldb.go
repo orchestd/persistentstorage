@@ -20,6 +20,7 @@ import (
 
 const cancelDateField = "cancelDate"
 const updateStampField = "updateStamp"
+const None = "none"
 
 func NewMySQLDbNoExtraDeps(credentials credentials.CredentialsGetter,
 	config configuration.Config) PersistentStorage {
@@ -29,14 +30,17 @@ func NewMySQLDbNoExtraDeps(credentials credentials.CredentialsGetter,
 func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.CredentialsGetter,
 	config configuration.Config, ctxResolver contextData.ContextDataResolver) PersistentStorage {
 	//TODO: add trace
+	host, _ := config.Get("SQL_HOST").String() //ignore error host can be empty
+	if host == None {
+		return &MySQLDb{}
+	}
+
 	sqlUserName := credentials.GetCredentials().SqlUserName
 	sqlUserPw := credentials.GetCredentials().SqlUserPw
 	dbName, err := config.Get("SQL_DB_NAME").String()
 	if err != nil {
 		panic("env variable SQL_DB_NAME must be defined")
 	}
-
-	host, _ := config.Get("SQL_HOST").String() //ignore error host can be empty
 
 	mysqlConfig := NewConfig()
 	if host != "" {
