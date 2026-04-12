@@ -79,7 +79,13 @@ func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.Cre
 
 	mySQLDb := &MySQLDb{}
 	mySQLDb.db = createDbConnection(host, dbName, sqlUserName, sqlUserPw)
-	mySQLDb.readOnlyDB = createDbConnection(hostReadOnly, dbNameReadOnly, sqlReadOnlyUserName, sqlReadOnlyUserPw)
+	if host == hostReadOnly && dbName == dbNameReadOnly &&
+		sqlUserName == sqlReadOnlyUserName && sqlUserPw == sqlReadOnlyUserPw {
+		mySQLDb.readOnlyDB = mySQLDb.db
+	} else {
+		mySQLDb.readOnlyDB = createDbConnection(hostReadOnly, dbNameReadOnly, sqlReadOnlyUserName, sqlReadOnlyUserPw)
+	}
+
 	mySQLDb.ctxResolver = ctxResolver
 	baseHeila.UpdStampGetter = updateStampGetter
 	return mySQLDb
