@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/orchestd/persistentstorage/baseHeila"
 	"time"
+
+	"github.com/orchestd/persistentstorage/baseHeila"
 )
 
 import (
@@ -26,18 +27,7 @@ func NewMySQLDbNoExtraDeps(credentials credentials.CredentialsGetter,
 	return NewMySQLDb(nil, credentials, config, nil)
 }
 
-func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.CredentialsGetter,
-	config configuration.Config, ctxResolver contextData.ContextDataResolver) PersistentStorage {
-	//TODO: add trace
-	sqlUserName := credentials.GetCredentials().SqlUserName
-	sqlUserPw := credentials.GetCredentials().SqlUserPw
-	dbName, err := config.Get("SQL_DB_NAME").String()
-	if err != nil {
-		panic("env variable SQL_DB_NAME must be defined")
-	}
-
-	host, _ := config.Get("SQL_HOST").String() //ignore error host can be empty
-
+func createDbConnection(host, dbName, sqlUserName, sqlUserPw string) *gorm.DB {
 	mysqlConfig := NewConfig()
 	if host != "" {
 		mysqlConfig.Net = "tcp"
@@ -50,12 +40,46 @@ func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.Cre
 	mysqlConfig.MultiStatements = true
 	mysqlConfig.InterpolateParams = true
 
-	mySQLDb := &MySQLDb{}
 	db, err := gorm.Open(mysql.Open(mysqlConfig.FormatDSN()), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
-	mySQLDb.db = db
+	return db
+}
+
+func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.CredentialsGetter,
+	config configuration.Config, ctxResolver contextData.ContextDataResolver) PersistentStorage {
+	//TODO: add trace
+	sqlUserName := credentials.GetCredentials().SqlUserName
+	sqlUserPw := credentials.GetCredentials().SqlUserPw
+
+	sqlReadOnlyUserName := credentials.GetCredentials().SqlReadOnlyUserName
+	if sqlReadOnlyUserName == "" {
+		sqlReadOnlyUserName = sqlUserName
+	}
+	sqlReadOnlyUserPw := credentials.GetCredentials().SqlReadOnlyUserPw
+	if sqlReadOnlyUserPw == "" {
+		sqlReadOnlyUserPw = sqlUserPw
+	}
+
+	dbName, err := config.Get("SQL_DB_NAME").String()
+	if err != nil {
+		panic("env variable SQL_DB_NAME must be defined")
+	}
+	dbNameReadOnly, err := config.Get("SQL_READ_ONLY_DB_NAME").String()
+	if err != nil || dbNameReadOnly == "" {
+		dbNameReadOnly = dbName
+	}
+
+	host, _ := config.Get("SQL_HOST").String() //ignore error host can be empty
+	hostReadOnly, _ := config.Get("SQL_READ_ONLY_HOST").String()
+	if hostReadOnly == "" {
+		hostReadOnly = host
+	}
+
+	mySQLDb := &MySQLDb{}
+	mySQLDb.db = createDbConnection(host, dbName, sqlUserName, sqlUserPw)
+	mySQLDb.readOnlyDB = createDbConnection(hostReadOnly, dbNameReadOnly, sqlReadOnlyUserName, sqlReadOnlyUserPw)
 	mySQLDb.ctxResolver = ctxResolver
 	baseHeila.UpdStampGetter = updateStampGetter
 	return mySQLDb
@@ -63,6 +87,7 @@ func NewMySQLDb(updateStampGetter UpdateStampGetter, credentials credentials.Cre
 
 type MySQLDb struct {
 	db          *gorm.DB
+	readOnlyDB  *gorm.DB
 	ctxResolver contextData.ContextDataResolver
 }
 
@@ -87,17 +112,17 @@ func (repo MySQLDb) getDbWithContext(c context.Context, db *gorm.DB) *gorm.DB {
 
 func (repo MySQLDb) QueryOne(c context.Context, target QueryGetter, params map[string]interface{}) error {
 	query := target.GetQuery()
-	return repo.getDbWithContext(c, repo.db).Raw(query, params).First(target).Error
+	return repo.getDbWithContext(c, repo.readOnlyDB).Raw(query, params).First(target).Error
 }
 
 func (repo MySQLDb) QueryMany(c context.Context, target QueryGetter, params map[string]interface{}) error {
 	query := target.GetQuery()
-	return repo.getDbWithContext(c, repo.db).Raw(query, params).Find(target).Error
+	return repo.getDbWithContext(c, repo.readOnlyDB).Raw(query, params).Find(target).Error
 }
 
 func (repo MySQLDb) QueryInt(c context.Context, query QueryGetter, params map[string]interface{}) (int64, error) {
 	var result map[string]interface{}
-	err := repo.getDbWithContext(c, repo.db).Raw(query.GetQuery(), params).First(&result).Error
+	err := repo.getDbWithContext(c, repo.readOnlyDB).Raw(query.GetQuery(), params).First(&result).Error
 	if err != nil {
 		return 0, err
 	}
@@ -121,7 +146,7 @@ func (repo MySQLDb) QueryInt(c context.Context, query QueryGetter, params map[st
 
 func (repo MySQLDb) QueryString(c context.Context, query QueryGetter, params map[string]interface{}) (string, error) {
 	var result map[string]interface{}
-	err := repo.getDbWithContext(c, repo.db).Raw(query.GetQuery(), params).Take(&result).Error
+	err := repo.getDbWithContext(c, repo.readOnlyDB).Raw(query.GetQuery(), params).Take(&result).Error
 	if err != nil {
 		return "", err
 	}
@@ -143,11 +168,11 @@ func (repo MySQLDb) QueryString(c context.Context, query QueryGetter, params map
 }
 
 func (repo MySQLDb) GetOne(c context.Context, target interface{}, params interface{}) error {
-	return repo.getDbWithContext(c, repo.db).Where(params).First(target).Error
+	return repo.getDbWithContext(c, repo.readOnlyDB).Where(params).First(target).Error
 }
 
 func (repo MySQLDb) GetMany(c context.Context, target interface{}, params interface{}) error {
-	return repo.getDbWithContext(c, repo.db).Where(params).Find(target).Error
+	return repo.getDbWithContext(c, repo.readOnlyDB).Where(params).Find(target).Error
 }
 
 func (repo MySQLDb) Insert(c context.Context, target interface{}) error {
