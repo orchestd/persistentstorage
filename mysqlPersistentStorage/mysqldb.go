@@ -22,6 +22,10 @@ import (
 const cancelDateField = "cancelDate"
 const updateStampField = "updateStamp"
 
+type baseHeilaEntityGetter interface {
+	GetBaseHeilaEntity() *baseHeila.BaseHeilaEntity
+}
+
 func NewMySQLDbNoExtraDeps(credentials credentials.CredentialsGetter,
 	config configuration.Config) PersistentStorage {
 	return NewMySQLDb(nil, credentials, config, nil)
@@ -190,7 +194,13 @@ func (repo MySQLDb) Update(c context.Context, update interface{}, query interfac
 }
 
 func (repo MySQLDb) Delete(c context.Context, model interface{}, params interface{}) error {
-	return repo.getDbWithContext(c, repo.db).Where(params).Delete(model).Error
+	db := repo.getDbWithContext(c, repo.db)
+	if heilaModel, ok := model.(baseHeilaEntityGetter); ok {
+		heilaModel.GetBaseHeilaEntity().DeletedAt = gorm.DeletedAt{Time: db.NowFunc(), Valid: true}
+		return db.Model(model).Where(params).Updates(model).Error
+	}
+
+	return db.Where(params).Delete(model).Error
 }
 
 func (repo MySQLDb) Exec(c context.Context, queryGetter QueryGetter, params map[string]interface{}) error {

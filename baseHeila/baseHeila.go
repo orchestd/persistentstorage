@@ -15,6 +15,10 @@ type BaseHeilaEntity struct {
 	UpdateStamp int64          `gorm:"column:updateStamp" json:"updateStamp"`
 }
 
+func (be *BaseHeilaEntity) GetBaseHeilaEntity() *BaseHeilaEntity {
+	return be
+}
+
 func (be *BaseHeilaEntity) setUpdateStamp(tx *gorm.DB) error {
 	var up int64 = -1
 	err := tx.Table(tx.Statement.Table).Select("IFNULL(MAX(updateStamp), 0) AS updateStamp").Pluck("updateStamp", &up).Error
